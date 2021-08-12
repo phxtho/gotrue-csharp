@@ -22,7 +22,8 @@ jobs:
         run: dotnet restore
         
       - name: Initialize Testing Stack
-        run: docker-compose up -d
+        run: docker-compose up -d db; \
+./wait-for-it.sh localhost:5432 --timeout=5 --strict -- docker-compose up -d gotrue
       
       - name: Build
         run: dotnet build --configuration Release --no-restore
